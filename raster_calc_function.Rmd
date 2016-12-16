@@ -1,14 +1,19 @@
 ---
 title: "R stack calculation test"
 author: "naru-T"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
 
 #### Test raster stack calculation. 
+just try to set NA values when less than 0.5 in raster stack
+check the processing time .
 
 1. set up raster stack
 ```{r}
-r <- raster(ncols=5000, nrows=5000)
+library(raster)
+r <- raster(ncols=3000, nrows=3000)
 r1 <- setValues(r, runif(ncell(r)))
 r2 <- setValues(r, runif(ncell(r)))
 r3 <- setValues(r, runif(ncell(r)))
@@ -21,12 +26,16 @@ stk <- stack(r1,r2,r3,r4,r5,r6)
 
 2. try normal approach
 this approach depends on RAM. 
+it is only faster when using smaller raster data. 
+Do not try this way if you use big raster data.
 ```{r}
 system.time(stk[stk <= 0.5 ] <- NA)
+summary(stk)
 ```
-//   user  system elapsed 
-// 241.201  78.050 339.558 
 
+   user  system elapsed 
+  0.984   0.406   1.403 
+  
 
 3. try user-defined function approach
 this does not necessary to prepare large amount of RAM.
@@ -38,8 +47,33 @@ this does not necessary to prepare large amount of RAM.
 
 stk <- stack(r1,r2,r3,r4,r5,r6)
 system.time(ans <- calc(stk, na_func))
+summary(ans)
+```
+
+#### calculation for temporal interpolating NA values in raster stack. 
+
+
+very nice function by https://stat.ethz.ch/pipermail/r-sig-geo/2010-December/010216.html
+It is always a good way to use calc function, especially when using big raster data.
+this do not depend on big RAM space.
+```{r}
+require(zoo)
+
+
+fill.NA <- function(x,na.rm = F){
+ #x[x==0] <- NA
+ if(length(which(is.na(x)==F))>2){
+ fill <- approxfun(x, y=NULL, method='linear', rule=2)
+ rec <- which(is.na(x))
+ x[rec] <- fill(rec)
+ }
+ 
+ return(x)
+}
+
+stk_fillNA <- calc(stk, fun=fill.NA)
+
+summary(stk_fillNA)
 
 ```
 
-//   user  system elapsed 
-// 211.858  18.913 236.694 
