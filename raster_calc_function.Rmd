@@ -6,11 +6,11 @@ output:
   html_notebook: default
 ---
 
-#### Test raster stack calculation. 
+### Test raster stack calculation. 
 just try to set NA values when less than 0.5 in raster stack
 check the processing time .
 
-1. set up raster stack
+* set up raster stack
 ```{r}
 library(raster)
 r <- raster(ncols=3000, nrows=3000)
@@ -24,7 +24,7 @@ stk <- stack(r1,r2,r3,r4,r5,r6)
 
 ```
 
-2. try normal approach
+* try normal approach
 this approach depends on RAM. 
 it is only faster when using smaller raster data. 
 Do not try this way if you use big raster data.
@@ -37,7 +37,7 @@ summary(stk)
   0.984   0.406   1.403 
   
 
-3. try user-defined function approach
+* try user-defined function approach
 this does not necessary to prepare large amount of RAM.
 ```{r}
   na_func <- function(x){
