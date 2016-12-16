@@ -24,6 +24,9 @@ this approach depends on RAM.
 ```{r}
 system.time(stk[stk <= 0.5 ] <- NA)
 ```
+#   user  system elapsed 
+# 241.201  78.050 339.558 
+
 
 3. try user-defined function approach
 this does not necessary to prepare large amount of RAM.
@@ -38,3 +41,5 @@ system.time(ans <- calc(stk, na_func))
 
 ```
 
+#   user  system elapsed 
+# 211.858  18.913 236.694 
