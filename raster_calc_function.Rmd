@@ -1,0 +1,40 @@
+---
+title: "R stack calculation test"
+author: "naru-T"
+output: html_notebook
+---
+
+#### Test raster stack calculation. 
+
+1. set up raster stack
+```{r}
+r <- raster(ncols=5000, nrows=5000)
+r1 <- setValues(r, runif(ncell(r)))
+r2 <- setValues(r, runif(ncell(r)))
+r3 <- setValues(r, runif(ncell(r)))
+r4 <- setValues(r, runif(ncell(r)))
+r5 <- setValues(r, runif(ncell(r)))
+r6 <- setValues(r, runif(ncell(r)))
+stk <- stack(r1,r2,r3,r4,r5,r6)
+
+```
+
+2. try normal approach
+this approach depends on RAM. 
+```{r}
+system.time(stk[stk <= 0.5 ] <- NA)
+```
+
+3. try user-defined function approach
+this does not necessary to prepare large amount of RAM.
+```{r}
+  na_func <- function(x){
+    x[x <= 0.5] <- NA
+    return(as.vector(x))
+  }
+
+stk <- stack(r1,r2,r3,r4,r5,r6)
+system.time(ans <- calc(stk, na_func))
+
+```
+
