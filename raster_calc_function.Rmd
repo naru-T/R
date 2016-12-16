@@ -33,11 +33,15 @@ system.time(stk[stk <= 0.5 ] <- NA)
 summary(stk)
 ```
 
-   user  system elapsed 
+   user  system elapsed   
   0.984   0.406   1.403 
+  
+  
   
 
 * try user-defined function approach
+
+
 this does not necessary to prepare large amount of RAM.
 ```{r}
   na_func <- function(x){
@@ -49,13 +53,18 @@ stk <- stack(r1,r2,r3,r4,r5,r6)
 system.time(ans <- calc(stk, na_func))
 summary(ans)
 ```
-
+ user  system elapsed     
+ 10.585   0.254  10.898 
+ 
+ 
+ 
 #### calculation for temporal interpolating NA values in raster stack. 
 
 
-very nice function by https://stat.ethz.ch/pipermail/r-sig-geo/2010-December/010216.html
+very nice function by https://stat.ethz.ch/pipermail/r-sig-geo/2010-December/010216.html    
 It is always a good way to use calc function, especially when using big raster data.
 this do not depend on big RAM space.
+
 ```{r}
 require(zoo)
 
