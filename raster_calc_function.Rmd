@@ -1,16 +1,21 @@
 ---
 title: "R stack calculation test"
+output: github_document
 author: "naru-T"
-output:
-  html_document: default
-  html_notebook: default
 ---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ### Test raster stack calculation. 
 just try to set NA values when less than 0.5 in raster stack
 check the processing time .
 
 * set up raster stack
+
 ```{r}
 library(raster)
 r <- raster(ncols=3000, nrows=3000)
@@ -28,6 +33,12 @@ stk <- stack(r1,r2,r3,r4,r5,r6)
 this approach depends on RAM. 
 it is only faster when using smaller raster data. 
 Do not try this way if you use big raster data.
+
+```{r}
+system.time(stk[stk <= 0.5 ] <- NA)
+summary(stk)
+```
+
 ```{r}
 system.time(stk[stk <= 0.5 ] <- NA)
 summary(stk)
@@ -43,6 +54,7 @@ summary(stk)
 
 
 this does not necessary to prepare large amount of RAM.
+
 ```{r}
   na_func <- function(x){
     x[x <= 0.5] <- NA
@@ -53,6 +65,7 @@ stk <- stack(r1,r2,r3,r4,r5,r6)
 system.time(ans <- calc(stk, na_func))
 summary(ans)
 ```
+
  user  system elapsed     
  10.585   0.254  10.898 
  
