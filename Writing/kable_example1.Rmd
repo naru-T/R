@@ -1,0 +1,57 @@
+---
+title: "add row group title"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+
+This is a kable example.
+Row group titles are added
+
+```{r library}
+library(knitr)
+library(kableExtra)
+
+```
+
+##import test data
+Motor Trend Car Road Tests in datasets package is loaded.
+```{r import data}
+
+dt <- mtcars[1:5, 1:4]
+##https://github.com/haozhu233/kableExtra
+# HTML table
+#kable(dt, format = "html", caption = "Demo Table") %>%
+#  kable_styling(bootstrap_options = "striped",
+#                full_width = F) %>%
+#  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+#  add_footnote(c("table footnote"))
+
+# LaTeX Table
+kable(dt, format = "latex", booktabs = T, caption = "Demo Table") %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("table footnote"))
+```
+
+##add row group title in table
+```{r row group title}
+#  kable(dt, booktabs = T,
+#          format = "latex", digits=2,
+#        caption ="test table") %>% 
+#  kable_styling() %>%
+#  group_rows("group A", 1, 2) %>%
+#  group_rows("group B", 3, 3) %>% 
+#  group_rows("group C", 4, 5)
+
+  kable(dt, booktabs = T,
+          format = "latex", digits=2,
+        caption ="test table") %>% 
+  kable_styling() %>%
+  group_rows("group A", 1, 2) %>%
+  group_rows("group B", 3, 3) %>% 
+  group_rows("group C", 4, 5)
+
+```
+

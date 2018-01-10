@@ -1,0 +1,79 @@
+---
+title: "import_export_vector"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+see here:
+http://www.nceas.ucsb.edu/scicomp/usecases/ReadWriteESRIShapeFiles
+
+#1 Read ESRIShapeFiles
+
+Let's think to import shapename.shp
+
+##1.1. rgdal
+by rgdal, the path of file is needed. filename is written without ".shp"
+http://www.inside-r.org/packages/cran/rgdal/docs/ogrInfo
+
+```{r read shp by rgdal, eval=FALSE}
+library(rgdal)
+in_ogr=readOGR("path","shapename")
+
+class(in_ogr)
+#[1] "SpatialPolygonsDataFrame"
+#attr(,"package")
+#[1] "sp"
+```
+
+##1.2. maptools
+```{r read shp by maptools, eval=FALSE}
+library(maptools)
+in_maptools=readShapePoly("path/shapename.shp")
+
+#or specify ID
+in_maptools=readShapePoly("path/shapename.shp", IDvar="OBJECTID")
+
+class(in_maptools)
+#[1] "SpatialPolygonsDataFrame"
+#attr(,"package")
+#[1] "sp"
+
+```
+
+```{r read shp by sf, eval=FALSE}
+##1.3. sf
+#https://cran.r-project.org/web/packages/sf/vignettes/sf2.html
+##the fastest way
+library(sf)
+##all the same
+in_sf <- read_sf("path","shapename") %>% as("Spatial")
+in_sf <- read_sf("path/shapename.shp") %>% as("Spatial")
+in_sf <- st_read("path","shapename") %>% as("Spatial")
+in_sf <- st_read("path/shapename.shp") %>% as("Spatial")
+
+class(in_sf)
+#[1] "SpatialPointsDataFrame"
+#attr(,"package")
+#[1] "sp"
+```
+#2 Write ESRIShapeFiles
+
+Let's think to export spatial data to the local as shapename.shp
+
+##2.1. rgdal
+
+```{r write shp by rgdal, eval=FALSE}
+library(rgdal)
+writeOGR(in_ogr, "path", "out_ogr", driver="ESRI Shapefile")
+```
+
+##2.2. maptools
+```{r write shp by maptools, eval=FALSE}
+##without coordination information
+library(maptools)
+writePolyShape(in_maptools,"out_maptools.shp")
+
+```

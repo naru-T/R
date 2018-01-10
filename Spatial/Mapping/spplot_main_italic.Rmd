@@ -1,0 +1,48 @@
+---
+title: "R Notebook"
+author: "NT"
+date: "`r format(Sys.time(), '%Y/%m/%d')`"
+output: html_notebook
+---
+
+#load packages
+```{r packages}
+library(raster)
+```
+
+#load sample raster
+
+```{r load data}
+alt <- getData('alt', country='JPN')
+
+```
+
+#default spplot
+```{r default spplot}
+spplot(alt)
+
+```
+
+# spplot with title
+```{r spplot with title}
+spplot(alt, main="altitude")
+
+```
+
+# spplot with title (normal and italic)
+```{r spplot with title normal and italic}
+spplot(alt, main=list(label=as.expression(bquote( paste("Altitude of ", italic(.("Japan"))))), cex=1))
+
+```
+
+# spplot with title (bold and italic)
+```{r spplot with title bold and italic}
+spplot(alt, main=list(label=as.expression(bquote( paste(bold(.("Altitude of ")), italic(.("Japan"))))), cex=1))
+
+```
+
+# spplot with large title (bold and italic)
+```{r spplot with large title bold and italic}
+spplot(alt, main=list(label=as.expression(bquote( paste(bold(.("Altitude of ")), italic(.("Japan"))))), cex=2))
+
+```

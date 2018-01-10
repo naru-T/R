@@ -1,0 +1,75 @@
+---
+title: "change text style in a table"
+author: "NT"
+date: "1/9/2018"
+output:
+  pdf_document: default
+---
+
+This is a kable example.
+Row group titles are added
+
+```{r library}
+library(knitr)
+library(kableExtra)
+
+```
+
+##import test data
+Motor Trend Car Road Tests in datasets package is loaded.
+```{r import data}
+
+dt <- mtcars[1:5, 1:4]
+##https://github.com/haozhu233/kableExtra
+```
+
+## Example Table
+
+###Latex
+```{r LaTeX Table 1}
+#from an official example
+kable(dt, format = "latex", booktabs = T, caption = "Demo Table") %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("table footnote"))
+```
+
+##change text style in components in a table
+###Latex
+```{r change text style in html table 2}
+# LaTeX Table
+kable(dt, format = "latex", booktabs = T, caption = "\\em{Demo} \\textnormal{Table}", escape =FALSE) %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("\\textsc{table} \\textbf{footnote}"), escape=FALSE)
+
+```
+
+
+##change text style in row / column names in a table
+```{r change text style in table 2}
+# LaTeX Table
+colnames(dt)[1] <- "\\textit{mpg}"
+colnames(dt)[2] <- "\\textbf{cyl}"
+colnames(dt)[3] <- "\\texttt{disp}"
+colnames(dt)[4] <- "\\textrm{hp}"
+
+rownames(dt)[1] <- "\\textit{Mazda RX4}"
+rownames(dt)[2] <- "\\textbf{Mazda RX4 Wag}"
+rownames(dt)[3] <- "\\texttt{Datsun 710}"
+rownames(dt)[4] <- "\\textrm{Hornet 4 Drive}"
+rownames(dt)[5] <- "\\textsc{Hornet Sportabout}"
+
+
+kable(dt, format = "latex", booktabs = T, caption = "\\em{Demo} \\textnormal{Table}", escape =FALSE) %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("\\textsc{table} \\textbf{footnote}"), escape=FALSE)
+
+```
+
+
+
