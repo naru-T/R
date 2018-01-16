@@ -61,3 +61,23 @@ path <-  kable(dt, format = "latex", booktabs = T, caption = "\\em{Demo} \\textn
 
 
 ```
+
+
+```{r}
+
+tbl <- kable(dt, format = "latex", booktabs = T, caption = "\\em{Demo} \\textnormal{Table}", escape =FALSE) %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("\\textsc{table} \\textbf{footnote}"), escape=FALSE)
+
+ if(out_type != "docx"){
+    tbl 
+  } else {
+  path <-  tbl  %>% 
+  kable_as_image(keep_pdf = T)
+    
+  include_graphics(path[1])
+  }
+```
+
