@@ -34,3 +34,6 @@ sp.na.omit <- function(x, margin=1) {
 #data.sp <- sp.na.omit(data.sp)
 
 
+##opposite of %in%
+#https://stackoverflow.com/questions/5831794/opposite-of-in
+'%!in%' <- function(x,y)!('%in%'(x,y))
