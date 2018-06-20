@@ -3,8 +3,8 @@
 
 ## Paste function --------------------------------------------------
 ##useful paste function from
-##<https://twitter.com/Keiku/status/700503152081051649>
-##<https://twitter.com/nick_harding/status/400686208755322881>
+##https://twitter.com/Keiku/status/700503152081051649
+##https://twitter.com/nick_harding/status/400686208755322881
 
 #define function
 `%+%` <- function(x,y){ paste0(x,y)}
