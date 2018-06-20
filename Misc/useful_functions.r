@@ -1,4 +1,6 @@
 ###Collections of useful r functions
+#when using this functions, 
+#load alike: source_url(url = "https://raw.githubusercontent.com/naru-T/Rscripts/master/Misc/useful_functions.r")
 
 
 ## Paste function --------------------------------------------------
