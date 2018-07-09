@@ -1,10 +1,13 @@
 ###Collections of useful r functions
+#when using this functions, 
+#load alike: 
+#source("https://raw.githubusercontent.com/naru-T/Rscripts/master/Misc/useful_functions.r")
 
 
 ## Paste function --------------------------------------------------
 ##useful paste function from
-##<https://twitter.com/Keiku/status/700503152081051649>
-##<https://twitter.com/nick_harding/status/400686208755322881>
+##https://twitter.com/Keiku/status/700503152081051649
+##https://twitter.com/nick_harding/status/400686208755322881
 
 #define function
 `%+%` <- function(x,y){ paste0(x,y)}
@@ -52,3 +55,6 @@ write_gpkg <- function (shp, file) {
 }
 
 
+##opposite of %in%
+#https://stackoverflow.com/questions/5831794/opposite-of-in
+'%!in%' <- function(x,y)!('%in%'(x,y))

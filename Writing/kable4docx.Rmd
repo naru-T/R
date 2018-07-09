@@ -1,0 +1,83 @@
+---
+title: "table for docx"
+author: "NT"
+date: "1/16/2018"
+output: word_document
+---
+
+---
+title: "change text style in a table"
+author: "NT"
+date: "1/9/2018"
+output:
+  pdf_document: default
+---
+
+This is a kable example.
+Row group titles are added
+
+```{r library}
+library(knitr)
+library(kableExtra)
+library(magick)
+
+```
+
+When export a table to docx, it is always troublesome. The best way seems to make an vector image, then load the image to visualize.
+So, here a table is exported to pdf, then import the pdf as an image.
+
+##import test data
+Motor Trend Car Road Tests in datasets package is loaded.
+```{r import data}
+
+dt <- mtcars[1:5, 1:4]
+##https://github.com/haozhu233/kableExtra
+```
+
+## Example Table
+
+###Latex
+```{r LaTeX Table 1}
+#from an official example
+kable(dt, format = "latex", booktabs = T, caption = "Demo Table") %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("table footnote"))
+```
+
+##Export the table as a pdf
+###Latex
+```{r export as pdf}
+# LaTeX Table
+path <-  kable(dt, format = "latex", booktabs = T, caption = "\\em{Demo} \\textnormal{Table}", escape =FALSE) %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("\\textsc{table} \\textbf{footnote}"), escape=FALSE)  %>% 
+  kable_as_image(keep_pdf = T)
+    
+  include_graphics(path[1])
+
+
+```
+
+
+```{r}
+
+tbl <- kable(dt, format = "latex", booktabs = T, caption = "\\em{Demo} \\textnormal{Table}", escape =FALSE) %>%
+  kable_styling(latex_options = c("striped", "hold_position"),
+                full_width = F) %>%
+  add_header_above(c(" ", "Group 1" = 2, "Group 2[note]" = 2)) %>%
+  add_footnote(c("\\textsc{table} \\textbf{footnote}"), escape=FALSE)
+
+ if(out_type != "docx"){
+    tbl 
+  } else {
+  path <-  tbl  %>% 
+  kable_as_image(keep_pdf = T)
+    
+  include_graphics(path[1])
+  }
+```
+
