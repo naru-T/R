@@ -3,6 +3,8 @@
 #load alike: 
 #source("https://raw.githubusercontent.com/naru-T/Rscripts/master/Misc/useful_functions.r")
 
+##NA count function ------------------------------------------------
+nacount=function(x){sum( is.na(x) ) }
 
 ## Paste function --------------------------------------------------
 ##useful paste function from
@@ -55,6 +57,23 @@ write_gpkg <- function (shp, file) {
 }
 
 
-##opposite of %in%
+##opposite of %in% ---------------------------------------------------------------
 #https://stackoverflow.com/questions/5831794/opposite-of-in
 '%!in%' <- function(x,y)!('%in%'(x,y))
+
+##spatial mean function based on k nearest neighbors ----------------------------
+spatialmean_func <- function(shp, varname, nb){
+  shp_nacount <- apply(shp@data[,varname],1,is.na)
+  if(!all(shp_nacount==FALSE)){
+  
+    for(i in 1:table(shp_nacount)[2]){
+    nb_specific <- nb[[which(shp_nacount)[i]]]
+
+      shp@data[which(shp_nacount)[i], varname] <- shp@data[nb_specific,] %>% 
+        as.matrix() %>% 
+        c() %>% 
+        mean(.,na.rm=TRUE)
+    }
+  }
+  return(shp)
+}
